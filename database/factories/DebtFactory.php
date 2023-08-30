@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Client;
 use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +21,10 @@ class DebtFactory extends Factory
     {
         $shops = Shop::query()->inRandomOrder()->first();
         $clients = Client::query()->inRandomOrder()->first();
-
+        $users = User::query()->inRandomOrder()->first();
         return [
             'shop_id' => $shops->id,
+            'user_id' => $users->id,
             'client_id' => $clients->id,
             'comment' => $this->faker->sentence(),
             'amount' => $this->faker->numberBetween(100, 300) . '000',
