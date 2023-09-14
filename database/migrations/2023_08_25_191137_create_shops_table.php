@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
-            $table->foreignId('owner');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('email');
             $table->string('password')->nullable();
             $table->string('phone_number')->nullable();
-            $table->integer('role_id');
             $table->string('google_id')->nullable();
             $table->string('google_token')->nullable();
             $table->string('google_refresh_token')->nullable();

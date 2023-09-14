@@ -14,14 +14,17 @@ class Shop extends Model
     protected $fillable = [
         'name',
         'address',
-        'owner'
+        'user_id'
     ];
 
-    public function owner(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
+    public function sellers():HasMany
+    {
+        return $this->hasMany(Seller::class);
+    }
     public function clients(): HasMany
     {
         return $this->hasMany(Client::class);

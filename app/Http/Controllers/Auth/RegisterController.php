@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Constants\ResponseConstants\AuthResponseEnum;
+use App\Constants\RolesEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\AuthResource;
@@ -17,6 +18,7 @@ class RegisterController extends Controller
             $validated['password'] = bcrypt($validated['password']);
             $user = User::query()->create($validated);
             $token = $user->createToken('api_token')->plainTextToken;
+            $user->assignRole(RolesEnum::OWNER->value);
             return AuthResource::make(['user' => $user , 'token' => $token]);
         }, AuthResponseEnum::USER_REGISTER);
     }

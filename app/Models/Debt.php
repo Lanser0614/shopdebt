@@ -14,6 +14,7 @@ class Debt extends Model
 
     protected $fillable = [
         'shop_id',
+        'user_id',
         'client_id',
         'comment',
         'amount',
