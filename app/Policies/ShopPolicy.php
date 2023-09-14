@@ -44,4 +44,9 @@ class ShopPolicy
     {
         return $user->hasRole(RolesEnum::OWNER->value) && $user->id === $shop->user_id;
     }
+
+    public function shop_clients(User $user, Shop $shop)
+    {
+        return $user->checkShopId($shop->id);
+    }
 }

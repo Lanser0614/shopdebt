@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', LogoutController::class);
         Route::post('update_sellers', [SellerController::class, 'update']);
+        Route::get('shop_clients/{shop}', [ShopController::class, 'shop_clients']);
         //Shops
         Route::middleware('owner')->group(function () {
             Route::apiResource('shops', ShopController::class)->except('index');

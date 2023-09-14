@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Constants\ResponseConstants\ShopResponseEnum;
 use App\Constants\RolesEnum;
 use App\Http\Requests\ShopRequest;
+use App\Http\Resources\ClientResource;
 use App\Http\Resources\Seller\UpdateSellerResource;
 use App\Http\Resources\Shop\ShopResource;
 use App\Models\Seller;
@@ -66,5 +67,13 @@ class ShopController extends Controller
                 $sellers = Seller::query()->where('shop_id', $shop->id)->get();
             return UpdateSellerResource::collection($sellers->load('user', 'shop'));
         }, ShopResponseEnum::SHOP_SELLERS);
+    }
+
+    public function shop_clients(Shop $shop)
+    {
+        return $this->execute(function () use ($shop){
+            $clients = $shop->clients;
+            return ClientResource::collection($clients);
+        }, ShopResponseEnum::SHOP_CLIENTS);
     }
 }
