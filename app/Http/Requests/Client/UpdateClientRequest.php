@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class UpdateClientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50',
-            'email' => 'required|email',
-            'password' => 'required|string|confirmed|min:8',
-            'phone_number' => 'nullable|regex:/[0-9]/|digits:12',
+            'name' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255'
         ];
     }
 }

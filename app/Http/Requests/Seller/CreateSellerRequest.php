@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Seller;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class CreateSellerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50',
-            'email' => 'required|email',
-            'password' => 'required|string|confirmed|min:8',
-            'phone_number' => 'nullable|regex:/[0-9]/|digits:12',
+            'shop_id' => 'required|int|exists:shops,id',
+            'label' => 'required|string'
         ];
     }
 }

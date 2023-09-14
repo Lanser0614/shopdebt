@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Shop\ShopResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class ClientResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +17,10 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'shop' => ShopResource::make($this->whenLoaded('shop')) ,
             'name' => $this->name,
-            'email' => $this->email,
-            'phone_number' => $this->phone,
+            'phone' => $this->phone_number,
+            'address' => $this->address
         ];
     }
 }

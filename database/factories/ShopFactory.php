@@ -21,7 +21,7 @@ class ShopFactory extends Factory
         return [
             'name' => $this->faker->sentence(2),
             'address' => $this->faker->address,
-            'owner' => $users->id
+            'user_id' => $users->id
         ];
     }
 }

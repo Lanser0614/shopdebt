@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Constants\RolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -49,11 +50,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function shop():HasOne
+    public function shops():HasMany
     {
-        return $this->hasOne(Shop::class);
+        return $this->hasMany(Shop::class);
     }
-
+    public function seller():HasOne
+    {
+        return $this->hasOne(Seller::class);
+    }
     public function contacts(): HasMany
     {
         return $this->hasMany(Contact::class);
@@ -62,5 +66,14 @@ class User extends Authenticatable
     public function debts(): HasMany
     {
         return $this->hasMany(Debt::class);
+    }
+
+    public function checkShopId(array $shop_id): bool
+    {
+        if ($this->hasRole(RolesEnum::OWNER->value)){
+            $shops_ids = $this->shops->pluck('id');
+            return in_array($shops_ids, $shop_id);
+        }
+        return $this->seller->shop_id === $shop_id;
     }
 }
