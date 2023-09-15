@@ -26,6 +26,10 @@ class Debt extends Model
         return $this->belongsTo(Shop::class);
     }
 
+    public function seller(): HasOne
+    {
+        return $this->hasOne(Seller::class);
+    }
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
@@ -36,8 +40,8 @@ class Debt extends Model
         return $this->belongsToMany(Product::class, 'debt_products', 'debt_id', 'product_id');
     }
 
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }

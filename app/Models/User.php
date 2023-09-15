@@ -62,17 +62,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Contact::class);
     }
-
     public function debts(): HasMany
     {
         return $this->hasMany(Debt::class);
     }
-
-    public function checkShopId(array $shop_id): bool
+    public function checkShopId(int $shop_id): bool
     {
         if ($this->hasRole(RolesEnum::OWNER->value)){
-            $shops_ids = $this->shops->pluck('id');
-            return in_array($shops_ids, $shop_id);
+            $shops_ids = $this->shops->pluck('id')->toArray();
+            return in_array($shop_id, $shops_ids);
         }
         return $this->seller->shop_id === $shop_id;
     }
