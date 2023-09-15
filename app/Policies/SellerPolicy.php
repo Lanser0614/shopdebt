@@ -21,7 +21,7 @@ class SellerPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasRole(RolesEnum::OWNER->value);
+        return true;
     }
 
     /**

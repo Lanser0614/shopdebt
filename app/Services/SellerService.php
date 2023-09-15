@@ -37,6 +37,17 @@ class SellerService {
         return $seller;
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function delete(Seller $seller): void
+    {
+        $seller->user()->syncRoles(RolesEnum::OWNER->value);
+        if (!$seller->delete()){
+            throw new \Exception('Can\' delete');
+        }
+    }
+
     protected function randomCode(): int
     {
         $code = random_int(10000000, 99999999);

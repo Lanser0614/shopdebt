@@ -14,7 +14,7 @@ class SellerController extends Controller
 {
     public function __construct(protected SellerService $sellerService)
     {
-        //
+        $this->authorizeResource(Seller::class, 'seller');
     }
     /**
      * Store a newly created resource in storage.
@@ -44,9 +44,7 @@ class SellerController extends Controller
     public function destroy(Seller $seller)
     {
         return $this->execute(function () use ($seller){
-            if (!$seller->delete()){
-                throw new \Exception('Can\' delete');
-            }
+            $this->sellerService->delete($seller);
         }, SellerResponseEnum::SELLER_DELETED);
     }
 

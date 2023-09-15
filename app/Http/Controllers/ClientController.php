@@ -11,6 +11,10 @@ use Exception;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Client::class, 'client');
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -18,11 +22,13 @@ class ClientController extends Controller
     {
         return $this->execute(function () use ($request){
             $validated = $request->validated();
+           if (!auth()->user()->checkShopId($validated['shop_id'])){
+               throw new Exception('Can\'t create');
+           };
             $client = Client::query()->create($validated);
             return ClientResource::make($client->load('shop'));
         }, ClientResponseEnum::CLIENT_CREATE);
     }
-
     /**
      * Display the specified resource.
      */

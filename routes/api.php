@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DebtController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -46,5 +47,7 @@ Route::prefix('v1')->group(function () {
         });
         //Clients
         Route::apiResource('clients', ClientController::class)->except('index');
+        //Debts
+        Route::apiResource('debts', DebtController::class)->except('index');
     });
 });

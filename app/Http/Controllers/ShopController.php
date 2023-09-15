@@ -13,6 +13,10 @@ use App\Models\Shop;
 
 class ShopController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Shop::class, 'shop');
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -63,14 +67,16 @@ class ShopController extends Controller
 
     public function shop_sellers(Shop $shop)
     {
+        $this->authorize('shop_sellers', $shop);
         return $this->execute(function () use ($shop){
-                $sellers = Seller::query()->where('shop_id', $shop->id)->get();
+            $sellers = Seller::query()->where('shop_id', $shop->id)->get();
             return UpdateSellerResource::collection($sellers->load('user', 'shop'));
         }, ShopResponseEnum::SHOP_SELLERS);
     }
 
     public function shop_clients(Shop $shop)
     {
+        $this->authorize('shop_clients', $shop);
         return $this->execute(function () use ($shop){
             $clients = $shop->clients;
             return ClientResource::collection($clients);
