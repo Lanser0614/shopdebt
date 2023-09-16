@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('debt_id');
             $table->integer('product_id');
-            $table->integer('price');
             $table->timestamps();
         });
     }

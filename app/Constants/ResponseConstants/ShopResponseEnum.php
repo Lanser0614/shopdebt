@@ -10,4 +10,5 @@ enum ShopResponseEnum:string implements ResponseInterface{
     case SHOP_DELETE = "Shop deleted successfully";
     case SHOP_SELLERS = "Shop sellers";
     case SHOP_CLIENTS = "Shop clients list";
+    case SHOP_PRODUCTS = "Shop products list";
 }

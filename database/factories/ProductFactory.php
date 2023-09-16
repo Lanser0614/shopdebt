@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Shop;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,7 +17,9 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $shops = Shop::query()->inRandomOrder()->first();
         return [
+            'shop_id' => $shops->id,
             'name' => $this->faker->word,
             'price' => $this->faker->numberBetween(10, 100) . '000',
             'description' => $this->faker->sentence

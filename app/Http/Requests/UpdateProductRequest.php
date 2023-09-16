@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateDebtRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,9 @@ class CreateDebtRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'shop_id' => 'required|int|exists:shops,id',
-            'client_id' => 'required|int|exists:clients,id',
-            'comment' => 'required|string|max:255',
-            'amount' => 'required|int|max_digits:7',
-            'deadline' => ['nullable', 'date', 'after_or_equal:' . now()->format('Y-m-d-H')],
-            'products' => 'nullable|array',
-            'products.*' => 'required|int|exists:products,id'
+            'name' => 'nullable|string|max:255',
+            'price' => 'nullable|int|max_digits:7',
+            'description' => 'nullable|string|max:255',
         ];
     }
 }

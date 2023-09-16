@@ -7,10 +7,11 @@ use App\Http\Requests\CreateDebtRequest;
 use App\Http\Requests\UpdateDebtRequest;
 use App\Http\Resources\DebtResource;
 use App\Models\Debt;
+use App\Services\DebtService;
 
 class DebtController extends Controller
 {
-    public function __construct()
+    public function __construct(protected DebtService $debtService)
     {
         $this->authorizeResource(Debt::class, 'debt');
     }
@@ -20,13 +21,8 @@ class DebtController extends Controller
     public function store(CreateDebtRequest $request)
     {
         return $this->execute(function () use ($request){
-            $validated = $request->validated();
-            $validated['user_id'] = auth()->id();
-            if (!auth()->user()->checkShopId($validated['shop_id'])){
-                throw new \Exception('Can\'t create');
-            }
-            $debt = Debt::query()->create($validated);
-            return DebtResource::make($debt->load('user', 'shop', 'client'));
+            $debt = $this->debtService->store($request->validated());
+            return DebtResource::make($debt->load('user', 'shop', 'client', 'products'));
         }, DebtResponseEnum::DEBT_CREATE);
     }
 
@@ -36,7 +32,7 @@ class DebtController extends Controller
     public function show(Debt $debt)
     {
         return $this->execute(function () use ($debt){
-            return DebtResource::make($debt->load('user', 'shop', 'client'));
+            return DebtResource::make($debt->load('user', 'shop', 'client',  'products'));
         }, DebtResponseEnum::DEBT_SHOW);
     }
 
@@ -46,9 +42,8 @@ class DebtController extends Controller
     public function update(UpdateDebtRequest $request, Debt $debt)
     {
         return $this->execute(function () use ($request, $debt){
-            $validated = $request->validated();
-            $debt->update($validated);
-            return DebtResource::make($debt->load('user', 'shop', 'client'));
+            $debt = $this->debtService->update($debt, $request->validated());
+            return DebtResource::make($debt->load('user', 'shop', 'client', 'products'));
         }, DebtResponseEnum::DEBT_UPDATE);
     }
 
@@ -58,6 +53,7 @@ class DebtController extends Controller
     public function destroy(Debt $debt)
     {
         return $this->execute(function () use ($debt){
+            $debt->products()->detach();
             if (!$debt->delete()){
                 throw new \Exception('Can\'t delete');
             }

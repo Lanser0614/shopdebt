@@ -30,7 +30,7 @@ class SellerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSellerRequest $request)
+    public function activate(UpdateSellerRequest $request)
     {
         return $this->execute(function () use ($request){
             $seller = $this->sellerService->update($request->validated());

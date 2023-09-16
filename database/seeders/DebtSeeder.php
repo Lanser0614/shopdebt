@@ -17,7 +17,7 @@ class DebtSeeder extends Seeder
 
         foreach(Product::all() as $product){
             $debt = Debt::query()->inRandomOrder()->take(rand(1,2))->pluck('id');
-            $product->debts()->attach($debt, ['price' => rand(10, 100) . '000']);
+            $product->debts()->attach($debt);
         }
     }
 }

@@ -19,7 +19,7 @@ class SellerPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function activate(User $user): bool
     {
         return true;
     }
