@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -35,8 +36,9 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', LogoutController::class);
-        Route::post('update_sellers', [SellerController::class, 'update']);
+        Route::post('update_sellers', [SellerController::class, 'activate']);
         Route::get('shop_clients/{shop}', [ShopController::class, 'shop_clients']);
+        Route::get('shop_products/{shop}', [ShopController::class, 'shop_products']);
         //Shops
         Route::middleware('owner')->group(function () {
             Route::apiResource('shops', ShopController::class)->except('index');
@@ -49,5 +51,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('clients', ClientController::class)->except('index');
         //Debts
         Route::apiResource('debts', DebtController::class)->except('index');
+        //Products
+        Route::apiResource('products', ProductController::class)->except('index');
     });
 });

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ResponseConstants\ProductResponseEnum;
 use App\Constants\ResponseConstants\ShopResponseEnum;
 use App\Constants\RolesEnum;
 use App\Http\Requests\ShopRequest;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\Seller\UpdateSellerResource;
 use App\Http\Resources\Shop\ShopResource;
 use App\Models\Seller;
@@ -81,5 +83,13 @@ class ShopController extends Controller
             $clients = $shop->clients;
             return ClientResource::collection($clients);
         }, ShopResponseEnum::SHOP_CLIENTS);
+    }
+
+    public function shop_products(Shop $shop)
+    {
+        return $this->execute(function () use ($shop){
+            $products = $shop->products;
+            return ProductResource::collection($shop);
+        }, ShopResponseEnum::SHOP_PRODUCTS);
     }
 }
