@@ -58,7 +58,7 @@ class ProductController extends Controller
     {
         return $this->execute(function () use ($product){
             if (!$product->delete()){
-                throw new \Exception('Can\' delete');
+                throw new \Exception('Can\'t delete');
             }
         }, ProductResponseEnum::PRODUCT_DELETED);
     }

@@ -16,13 +16,27 @@ class DebtService{
             throw new \Exception('Can\'t create');
         }
          $debt = Debt::query()->create($validated);
-        $debt->products()->attach($validated['products']);
+        foreach ($validated['products'] as $product){
+            if(!$product === $debt->shop_id){
+                throw new \Exception('Product shop id is invalid');
+            }
+        }
+                $debt->products()->attach($validated['products']);
         return $debt;
     }
 
-    public function update(Debt $debt, $validated)
+    /**
+     * @throws \Exception
+     */
+    public function update(Debt $debt, $validated): Debt
     {
         $debt->update($validated);
+
+        foreach ($validated['products'] as $product){
+            if(!$product === $debt->shop_id){
+                throw new \Exception('Product shop id is invalid');
+            }
+        }
 
         $debt->products()->sync($validated['products']);
 

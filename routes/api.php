@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerController;
@@ -53,5 +54,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('debts', DebtController::class)->except('index');
         //Products
         Route::apiResource('products', ProductController::class)->except('index');
+        //Contacts
+        Route::post('import_contacts', [ContactController::class, 'import'])->name('import');
     });
 });
