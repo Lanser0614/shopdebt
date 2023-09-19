@@ -44,7 +44,7 @@ class SellerService {
     {
         $seller->user()->syncRoles(RolesEnum::OWNER->value);
         if (!$seller->delete()){
-            throw new \Exception('Can\' delete');
+            throw new \Exception('Can\'t delete');
         }
     }
 

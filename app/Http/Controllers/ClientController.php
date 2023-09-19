@@ -58,7 +58,7 @@ class ClientController extends Controller
     {
         return $this->execute(function () use ($client){
             if (!$client->delete()){
-                throw new Exception('Can\' delete');
+                throw new Exception('Can\'t delete');
             }
         }, ClientResponseEnum::CLIENT_DELETE);
     }
