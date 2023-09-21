@@ -7,6 +7,7 @@ use App\Http\Requests\ImportContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Http\Resources\ContactResource;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -44,5 +45,13 @@ class ContactController extends Controller
                 throw new \Exception('Can\'t delete');
             }
         }, ContactResponseEnum::CONTACT_DELETE);
+    }
+
+    public function search_contact(Request $request)
+    {
+        return $this->execute(function () use ($request){
+            $contacts = Contact::search($request->all())->get();
+            return ContactResource::collection($contacts);
+        }, ContactResponseEnum::CONTACT_SEARCH);
     }
 }
