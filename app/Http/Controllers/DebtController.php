@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateDebtRequest;
 use App\Http\Resources\DebtResource;
 use App\Models\Debt;
 use App\Services\DebtService;
+use Illuminate\Http\Request;
 
 class DebtController extends Controller
 {
@@ -58,5 +59,13 @@ class DebtController extends Controller
                 throw new \Exception('Can\'t delete');
             }
         }, DebtResponseEnum::DEBT_DELETE);
+    }
+
+    public function search_debt(Request $request)
+    {
+        return $this->execute(function () use ($request){
+            $debts = Debt::search($request->all())->get();
+            return DebtResource::collection($debts);
+        }, DebtResponseEnum::DEBT_SEARCH);
     }
 }

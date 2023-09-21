@@ -8,6 +8,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -56,5 +57,13 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('products', ProductController::class)->except('index');
         //Contacts
         Route::post('import_contacts', [ContactController::class, 'import'])->name('import');
+        Route::put('contacts/{contact}', [ContactController::class, 'update'])->name('contact.update');
+        Route::delete('contacts/{contact}', [ContactController::class, 'delete'])->name('contact.delete');
+        //Searchs
+        Route::get('main_search', [SearchController::class, 'main_search'])->name('main_search');
+        Route::get('search_contacts', [ContactController::class, 'search_contact'])->name('search_contact');
+        Route::get('search_debt', [DebtController::class, 'search_debt'])->name('search_debt');
+        Route::get('search_clients', [ClientController::class, 'search_client'])->name('search_client');
+
     });
 });

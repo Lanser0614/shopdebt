@@ -8,6 +8,7 @@ use App\Http\Requests\Client\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Exception;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -61,5 +62,13 @@ class ClientController extends Controller
                 throw new Exception('Can\'t delete');
             }
         }, ClientResponseEnum::CLIENT_DELETE);
+    }
+
+    public function search_client(Request $request)
+    {
+        return $this->execute(function () use ($request){
+            $clients = Client::search($request->all())->get();
+            return ClientResource::collection($clients);
+        }, ClientResponseEnum::CLIENT_SEARCH);
     }
 }

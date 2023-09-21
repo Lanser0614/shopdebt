@@ -6,4 +6,5 @@ namespace App\Constants\ResponseConstants;
         case CLIENT_SHOW = "Client information";
         case CLIENT_UPDATE = "Client updated successfully";
         case CLIENT_DELETE = "Client deleted successfully";
+        case CLIENT_SEARCH = "Search results by params";
 }
