@@ -26,6 +26,7 @@ class User extends Authenticatable
         'phone_number',
         'password',
         'role_id',
+        'email_verified_at',
         'google_id',
         'google_token',
         'google_refresh_token'
@@ -48,6 +49,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
+        'email_verified_at' => 'datetime'
     ];
 
     public function shops():HasMany
