@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AuthOtpController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DebtController;
@@ -27,8 +28,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::middleware('guest:sanctum')->group(function () {
-        Route::post('register', RegisterController::class);
-        Route::post('login', LoginController::class);
+        Route::post('register', RegisterController::class)->name('register');
+        Route::post('login', LoginController::class)->name('login');
+        Route::post('otp/generate', [AuthOtpController::class, 'generate'])->name('otp.generate');
+        Route::post('otp/login', [AuthOtpController::class, 'loginWithOtp'])->name('otp.login');
     });
 
     Route::middleware('web')->group(function () {
@@ -37,17 +40,17 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('logout', LogoutController::class);
-        Route::post('update_sellers', [SellerController::class, 'activate']);
-        Route::get('shop_clients/{shop}', [ShopController::class, 'shop_clients']);
-        Route::get('shop_products/{shop}', [ShopController::class, 'shop_products']);
+        Route::get('logout', LogoutController::class)->name('logout');
+        Route::post('update_sellers', [SellerController::class, 'activate'])->name('seller.activate');
+        Route::get('shop_clients/{shop}', [ShopController::class, 'shop_clients'])->name('shop-clients');
+        Route::get('shop_products/{shop}', [ShopController::class, 'shop_products'])->name('shop-products');
         //Shops
         Route::middleware('owner')->group(function () {
             Route::apiResource('shops', ShopController::class)->except('index');
             //Sellers
-            Route::get('shop_sellers/{shop}', [ShopController::class, 'shop_sellers']);
-            Route::post('sellers', [SellerController::class, 'store']);
-            Route::delete('sellers/{seller}', [SellerController::class, 'destroy']);
+            Route::get('shop_sellers/{shop}', [ShopController::class, 'shop_sellers'])->name('shop-sellers');
+            Route::post('sellers', [SellerController::class, 'store'])->name('seller.store');
+            Route::delete('sellers/{seller}', [SellerController::class, 'destroy'])->name('seller.destroy');
         });
         //Clients
         Route::apiResource('clients', ClientController::class)->except('index');
@@ -56,14 +59,14 @@ Route::prefix('v1')->group(function () {
         //Products
         Route::apiResource('products', ProductController::class)->except('index');
         //Contacts
-        Route::post('import_contacts', [ContactController::class, 'import'])->name('import');
+        Route::post('import_contacts', [ContactController::class, 'import'])->name('import-contacts');
         Route::put('contacts/{contact}', [ContactController::class, 'update'])->name('contact.update');
         Route::delete('contacts/{contact}', [ContactController::class, 'delete'])->name('contact.delete');
-        //Searchs
+        //Search
         Route::get('main_search', [SearchController::class, 'main_search'])->name('main_search');
-        Route::get('search_contacts', [ContactController::class, 'search_contact'])->name('search_contact');
-        Route::get('search_debt', [DebtController::class, 'search_debt'])->name('search_debt');
-        Route::get('search_clients', [ClientController::class, 'search_client'])->name('search_client');
+        Route::get('search_contacts', [ContactController::class, 'search_contact'])->name('search-contact');
+        Route::get('search_debt', [DebtController::class, 'search_debt'])->name('search-debt');
+        Route::get('search_clients', [ClientController::class, 'search_client'])->name('search-client');
 
     });
 });
