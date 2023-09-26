@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\ResponseConstants\ProductResponseEnum;
 use App\Constants\ResponseConstants\ShopResponseEnum;
-use App\Constants\RolesEnum;
-use App\Http\Requests\ShopRequest;
+use App\Http\Requests\Shop\ShopRequest;
+use App\Http\Requests\Shop\UpdateShopRequest;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\Seller\UpdateSellerResource;
@@ -33,19 +32,9 @@ class ShopController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Shop $shop)
-    {
-        return $this->execute(function () use ($shop){
-            return ShopResource::make($shop->load('user'));
-        }, ShopResponseEnum::SHOP_INFO);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(ShopRequest $request, Shop $shop)
+    public function update(UpdateShopRequest $request, Shop $shop)
     {
         return $this->execute(function () use ($request, $shop){
             $validated = $request->validated();

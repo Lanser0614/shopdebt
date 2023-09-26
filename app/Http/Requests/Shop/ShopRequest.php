@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Shop;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +23,7 @@ class ShopRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
+            'address' => 'required|string|max:255'
         ];
     }
 }

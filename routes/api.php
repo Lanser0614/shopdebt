@@ -46,7 +46,7 @@ Route::prefix('v1')->group(function () {
         Route::get('shop_products/{shop}', [ShopController::class, 'shop_products'])->name('shop-products');
         //Shops
         Route::middleware('owner')->group(function () {
-            Route::apiResource('shops', ShopController::class)->except('index');
+            Route::apiResource('shops', ShopController::class)->except('index', 'show');
             //Sellers
             Route::get('shop_sellers/{shop}', [ShopController::class, 'shop_sellers'])->name('shop-sellers');
             Route::post('sellers', [SellerController::class, 'store'])->name('seller.store');

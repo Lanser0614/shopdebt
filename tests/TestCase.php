@@ -3,6 +3,8 @@
 namespace Tests;
 
 use App\Constants\RolesEnum;
+use App\Models\Client;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -12,8 +14,11 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    protected $owner;
-    protected $seller;
+    protected  $owner;
+    protected  $seller;
+    protected $stranger;
+    protected  Client $client;
+    protected  Shop $shop;
 
     public function setUp(): void
     {
@@ -21,6 +26,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->owner = User::factory()->create()->assignRole(RolesEnum::OWNER->value);
         $this->seller = User::factory()->create()->assignRole(RolesEnum::SELLER->value);
+        $this->stranger = User::factory()->create()->assignRole(RolesEnum::OWNER->value);
     }
 
     protected function isSuccess(TestResponse $response)
