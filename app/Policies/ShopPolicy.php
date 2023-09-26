@@ -8,13 +8,6 @@ use App\Models\User;
 
 class ShopPolicy
 {
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Shop $shop): bool
-    {
-        return $user->hasRole(RolesEnum::OWNER->value) && $user->id === $shop->user_id;
-    }
 
     /**
      * Determine whether the user can create models.
@@ -35,6 +28,7 @@ class ShopPolicy
     /**
      * Determine whether the user can delete the model.
      */
+
     public function delete(User $user, Shop $shop): bool
     {
         return $user->hasRole(RolesEnum::OWNER->value) && $user->id === $shop->user_id;
