@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OtpMail;
 use App\Models\User;
 use App\Models\VerificationCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthOtpController extends Controller
 {
@@ -18,12 +20,10 @@ class AuthOtpController extends Controller
 
         $verificationCode = $this->generateOtp($request->email);
 
-        return response([
-            'user_id' => $verificationCode->user_id,
-            'otp' => $verificationCode->otp,
-            'message' => 'Your one time password',
-            'success' => true,
-        ]);
+        $mail = Mail::to($request->email)->send(new OtpMail($verificationCode));
+        if ($mail){
+        return response('Check your email for otp!');
+        }
     }
 
     /**
@@ -76,10 +76,12 @@ class AuthOtpController extends Controller
             return $verificationCode;
         }
 
-        return VerificationCode::create([
+        $otp = VerificationCode::create([
             'user_id' => $user->id,
             'otp' => rand(1234, 9999),
             'expire_at' => Carbon::now()->addMinutes(10)
         ]);
+
+        return $otp->otp;
     }
 }

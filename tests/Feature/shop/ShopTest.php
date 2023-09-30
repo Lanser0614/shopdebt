@@ -70,7 +70,7 @@ class ShopTest extends TestCase
         $this->isSuccess($response);
     }
 
-    public function test_owner_can_see_client()
+    public function test_owner_can_see_shop_client()
     {
         $response = $this->actingAs($this->owner)
             ->get(route('shop-clients', $this->shop->id))

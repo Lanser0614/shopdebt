@@ -42,7 +42,7 @@ class SellerService {
      */
     public function delete(Seller $seller): void
     {
-        $seller->user()->syncRoles(RolesEnum::OWNER->value);
+        $seller->user->syncRoles(RolesEnum::OWNER->value);
         if (!$seller->delete()){
             throw new \Exception('Can\'t delete');
         }
