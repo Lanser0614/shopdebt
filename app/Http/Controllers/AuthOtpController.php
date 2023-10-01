@@ -22,7 +22,7 @@ class AuthOtpController extends Controller
 
         $data = [
             'chat_id' => config('custom.telegram_chat_id'),
-            'text' => 'Email: '. $request->email ."\nCode: " . $verificationCode->otp,
+            'text' => 'Email: '. $request->email ."\nCode: " . $verificationCode,
         ];
 
 
