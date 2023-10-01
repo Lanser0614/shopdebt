@@ -82,7 +82,7 @@ class AuthOtpController extends Controller
         $now = Carbon::now();
 
         if ($verificationCode && $now->isBefore($verificationCode->expire_at)) {
-            return $verificationCode;
+            return $verificationCode->otp;
         }
 
         $otp = VerificationCode::create([
