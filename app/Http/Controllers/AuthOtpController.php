@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\OtpMail;
 use App\Models\User;
 use App\Models\VerificationCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class AuthOtpController extends Controller
 {
@@ -20,10 +20,19 @@ class AuthOtpController extends Controller
 
         $verificationCode = $this->generateOtp($request->email);
 
-        $mail = Mail::to($request->email)->send(new OtpMail($verificationCode));
-        if ($mail){
-        return response('Check your email for otp!');
+        $data = [
+            'chat_id' => config('custom.telegram_chat_id'),
+            'text' => 'Email: '. $request->email ."\nCode: " . $verificationCode->otp,
+        ];
+
+
+        if ($verificationCode){
+            $response = Telegram::bot('mybot')->sendMessage($data);
         }
+//        $mail = Mail::to($request->email)->send(new OtpMail($verificationCode));
+//        if ($mail){
+//        return response('Check your email for otp!');
+//        }
     }
 
     /**

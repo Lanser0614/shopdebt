@@ -1,0 +1,1 @@
+{"ok":true,"result":{"message_id":748,"from":{"id":6571482239,"is_bot":true,"first_name":"OTPcodes","username":"PdaftarOTPbot"},"chat":{"id":-1001865011571,"title":"Pdaftar.uz","type":"supergroup"},"date":1696152534,"text":"Email: madaminme@gmail.com\nCode: 1408","entities":[{"offset":7,"length":19,"type":"email"}]}}
