@@ -12,27 +12,6 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class AuthOtpController extends Controller
 {
-    function sendMessage($content, $method, $type = '') {
-
-        $curl = curl_init();
-
-        // set url
-        curl_setopt($curl, CURLOPT_URL, 'https://api.telegram.org/bot'.config('custom.telegram_bot_token').'/'.$method);
-
-        //return the transfer as a string
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-        // $output contains the output string
-        $output = curl_exec($curl);
-
-        curl_close($curl);
-
-        file_put_contents("return_sent.txt", $output);
-        return $output;
-
-    }
-
     public function generate(Request $request)
     {
         $request->validate([
@@ -45,14 +24,11 @@ class AuthOtpController extends Controller
             'chat_id' => config('custom.telegram_chat_id'),
             'text' => 'Email: '. $request->email ."\nCode: " . $verificationCode->otp,
         ];
-        $this->sendMessage($data, "sendMessage");
 
 
-
-//        if ($verificationCode){
-//            $response = Telegram::bot('mybot')->getMe();
-//                $response->sendMessage(['chat_id' => config('custom.telegram_chat_id'), 'text' => $verificationCode]);
-//        }
+        if ($verificationCode){
+            $response = Telegram::bot('mybot')->sendMessage($data);
+        }
 //        $mail = Mail::to($request->email)->send(new OtpMail($verificationCode));
 //        if ($mail){
 //        return response('Check your email for otp!');
