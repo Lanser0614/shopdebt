@@ -3,6 +3,7 @@
 namespace Tests\Feature\Shop;
 
 use App\Models\Client;
+use App\Models\Product;
 use App\Models\Seller;
 use App\Models\Shop;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ class ShopTest extends TestCase
         $this->shop = Shop::factory()->create(['user_id' => $this->owner->id]);
         $this->seller = Seller::factory()->create(['shop_id' => $this->shop->id]);
         $this->client = Client::factory()->create(['shop_id' => $this->shop->id]);
+        $this->product = Product::factory()->create(['shop_id' => $this->shop->id]);
     }
     public function test_user_can_create_shop()
     {
@@ -49,10 +51,7 @@ class ShopTest extends TestCase
         $response = $this->actingAs($this->owner)
             ->delete(route('shops.destroy', $this->shop->id))
             ->assertStatus(200)
-            ->assertJsonStructure([
-                'message',
-                'success',
-            ]);
+            ->assertJsonStructure(['message', 'success']);
         $this->isSuccess($response);
         $this->assertDatabaseMissing('shops', ['id' => $this->shop->id]);
     }
@@ -62,11 +61,7 @@ class ShopTest extends TestCase
         $response = $this->actingAs($this->owner)
             ->get(route('shop-sellers', $this->shop->id))
             ->assertStatus(200)
-            ->assertJsonStructure([
-               'data' => [['user','shop', 'label']],
-                'message',
-                'success'
-            ]);
+            ->assertJsonStructure([ 'data' => [['user','shop', 'label']], 'message', 'success']);
         $this->isSuccess($response);
     }
 
@@ -76,10 +71,15 @@ class ShopTest extends TestCase
             ->get(route('shop-clients', $this->shop->id))
             ->assertStatus(200)
             ->assertJsonStructure([
-                'data' => [['id', 'name', 'phone', 'address']],
-                'message',
-                'success'
-            ]);
+                'data' => [['id', 'name', 'phone', 'address']], 'message', 'success']);
+        $this->isSuccess($response);
+    }
+
+    public function test_owner_can_see_shop_products()
+    {
+        $response = $this->actingAs($this->owner)->get(route('shop-products', $this->shop->id))
+            ->assertStatus(200)
+            ->assertJsonStructure(['data' => [['id', 'name', 'price', 'description']], 'message', 'success']);
         $this->isSuccess($response);
     }
 

@@ -18,11 +18,13 @@ class ContactFactory extends Factory
     public function definition(): array
     {
         $users = User::query()->inRandomOrder()->first();
+        $prenums = ['90','91','93','94','95','97','98','99','50','88','77','33','20'];
+
         return [
             'user_id' => $users->id,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'phone_number' => $this->faker->phoneNumber
+            'phone_number' => '+998'.$prenums[array_rand($prenums)].rand(1111111,9999999)
         ];
     }
 }

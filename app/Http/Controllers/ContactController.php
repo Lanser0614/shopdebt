@@ -54,4 +54,9 @@ class ContactController extends Controller
             return ContactResource::collection($contacts);
         }, ContactResponseEnum::CONTACT_SEARCH);
     }
+
+    static function validatePhone(string $phone)
+    {
+
+    }
 }
