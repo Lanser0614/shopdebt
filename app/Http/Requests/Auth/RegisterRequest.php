@@ -23,9 +23,12 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:50',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string|confirmed|min:8',
-            'phone_number' => 'nullable|regex:/[0-9]/|digits:12',
+            'phone_number' => [
+                'nullable',
+                'regex:/^\+998(90|91|93|94|95|97|98|99|50|88|77|33|20)[0-9]{7}$/'
+            ],
         ];
     }
 }

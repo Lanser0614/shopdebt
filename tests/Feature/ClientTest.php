@@ -25,6 +25,7 @@ class ClientTest extends TestCase
     public function test_owner_can_create_client()
     {
         $client = $this->getFakeModel('raw');
+        $client['phone_number'] = '+998907314249';
         $response = $this->actingAs($this->owner)
             ->post(route('clients.store'), $client)
             ->assertStatus(201)
@@ -34,9 +35,10 @@ class ClientTest extends TestCase
         $this->assertDatabaseHas('clients', ['id' => $id]);
     }
 
-    public function test_seller_can_create_seller()
+    public function test_seller_can_create_client()
     {
         $client = $this->getFakeModel('raw');
+        $client['phone_number'] = '+998907314249';
         $response = $this->actingAs($this->seller)
             ->post(route('clients.store'), $client)
             ->assertStatus(201)
@@ -105,7 +107,22 @@ class ClientTest extends TestCase
         $this->isSuccess($response);
         $this->assertDatabaseMissing('clients', ['id' => $this->client->id]);
     }
-    
+
+    public function test_owner_can_search_client()
+    {
+        $response = $this->actingAs($this->owner)
+            ->get(route('search-client',['shop_id' => 1, 'name' => $this->client->name]))
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    ['id', 'name', 'phone', 'address']
+                ],
+                'message',
+                'success'
+            ]);
+        $this->isSuccess($response);
+    }
+
     protected function getJsonStructure(): array
     {
         return [

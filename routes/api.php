@@ -42,11 +42,12 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', LogoutController::class)->name('logout');
         Route::post('update_sellers', [SellerController::class, 'activate'])->name('seller.activate');
+        //Shops
         Route::get('shop_clients/{shop}', [ShopController::class, 'shop_clients'])->name('shop-clients');
         Route::get('shop_products/{shop}', [ShopController::class, 'shop_products'])->name('shop-products');
-        //Shops
+        Route::get('user_shops', [ShopController::class, 'user_shops'])->name('user-shops');
         Route::middleware('owner')->group(function () {
-            Route::apiResource('shops', ShopController::class)->except('index', 'show');
+            Route::apiResource('shops', ShopController::class)->except('index');
             //Sellers
             Route::get('shop_sellers/{shop}', [ShopController::class, 'shop_sellers'])->name('shop-sellers');
             Route::post('sellers', [SellerController::class, 'store'])->name('seller.store');

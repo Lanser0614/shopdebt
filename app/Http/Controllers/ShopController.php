@@ -11,6 +11,7 @@ use App\Http\Resources\Seller\UpdateSellerResource;
 use App\Http\Resources\Shop\ShopResource;
 use App\Models\Seller;
 use App\Models\Shop;
+use App\Models\User;
 
 class ShopController extends Controller
 {
@@ -31,9 +32,21 @@ class ShopController extends Controller
         }, ShopResponseEnum::SHOP_CREATE);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    public function show(Shop $shop)
+    {
+        return $this->execute(function () use ($shop){
+            return ShopResource::make($shop->load('user'));
+        }, ShopResponseEnum::SHOP_INFO);
+    }
+
+    public function user_shops()
+    {
+        return $this->execute(function () {
+            $shops = User::query()->find(auth()->id())->shops;
+            return ShopResource::collection($shops);
+        }, ShopResponseEnum::USER_SHOPS);
+    }
+
     public function update(UpdateShopRequest $request, Shop $shop)
     {
         return $this->execute(function () use ($request, $shop){
@@ -78,7 +91,7 @@ class ShopController extends Controller
     {
         return $this->execute(function () use ($shop){
             $products = $shop->products;
-            return ProductResource::collection($shop);
+            return ProductResource::collection($products);
         }, ShopResponseEnum::SHOP_PRODUCTS);
     }
 }

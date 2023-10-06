@@ -25,7 +25,7 @@ class UpdateDebtRequest extends FormRequest
             'shop_id' => 'nullable|int|exists:shops,id',
             'client_id' => 'nullable|int|exists:clients,id',
             'comment' => 'nullable|string|max:255',
-            'amount' => 'nullable|int|digits:7',
+            'amount' => 'nullable|int|max_digits:7',
             'deadline' => ['nullable', 'date', 'after_or_equal:' . now()->format('Y-m-d-H')],
             'products' => 'nullable|array',
             'products.*' => 'required|int|exists:products,id'

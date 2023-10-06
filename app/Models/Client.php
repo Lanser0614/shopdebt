@@ -41,7 +41,6 @@ class Client extends Model
            $q->when(isset($params['phone_number']), function (Builder $q) use ($params){
               $q->where('phone_number', $params['phone_number']);
            });
-
         });
     }
 }

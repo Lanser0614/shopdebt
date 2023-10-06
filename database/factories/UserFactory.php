@@ -18,11 +18,14 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $prenums = ['90','91','93','94','95','97','98','99','50','88','77','33','20'];
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make(Str::random(10)),
             'remember_token' => Str::random(10),
+            'phone_number' => '+998'.$prenums[array_rand($prenums)].rand(1111111,9999999)
         ];
     }
 }

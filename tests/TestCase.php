@@ -4,6 +4,8 @@ namespace Tests;
 
 use App\Constants\RolesEnum;
 use App\Models\Client;
+use App\Models\Debt;
+use App\Models\Product;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +21,8 @@ abstract class TestCase extends BaseTestCase
     protected $stranger;
     protected  Client $client;
     protected  Shop $shop;
+    protected Debt $debt;
+    protected Product $product;
 
     public function setUp(): void
     {
