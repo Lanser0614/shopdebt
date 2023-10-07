@@ -29,6 +29,6 @@ class SellerPolicy
      */
     public function delete(User $user, Seller $seller): bool
     {
-        return ($user->id === $seller->shop_id);
+        return $user->id === $seller->shop->user_id;
     }
 }
