@@ -110,8 +110,9 @@ class ClientTest extends TestCase
 
     public function test_owner_can_search_client()
     {
+        $client = Client::factory()->create();
         $response = $this->actingAs($this->owner)
-            ->get(route('search-client',['shop_id' => 1, 'name' => $this->client->name]))
+            ->get(route('search-client',['shop_id' => $client->shop_id, 'name' => $client->name]))
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [

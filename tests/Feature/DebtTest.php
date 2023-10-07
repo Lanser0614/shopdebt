@@ -100,7 +100,7 @@ class DebtTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure(['data' => [['id', 'comment', 'amount', 'deadline']], 'message', 'success']);
         $this->isSuccess($response);
-        $this->assertEquals(2, $response['data'][0]['id']);
+        $this->assertEquals($debt->id, $response['data'][0]['id']);
     }
     protected function getJsonStructure(): array
     {
