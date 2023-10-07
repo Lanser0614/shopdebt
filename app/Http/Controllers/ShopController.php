@@ -19,9 +19,7 @@ class ShopController extends Controller
     {
         $this->authorizeResource(Shop::class, 'shop');
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(ShopRequest $request)
     {
         return $this->execute(function () use ($request){
@@ -39,14 +37,6 @@ class ShopController extends Controller
         }, ShopResponseEnum::SHOP_INFO);
     }
 
-    public function user_shops()
-    {
-        return $this->execute(function () {
-            $shops = User::query()->find(auth()->id())->shops;
-            return ShopResource::collection($shops);
-        }, ShopResponseEnum::USER_SHOPS);
-    }
-
     public function update(UpdateShopRequest $request, Shop $shop)
     {
         return $this->execute(function () use ($request, $shop){
@@ -57,9 +47,6 @@ class ShopController extends Controller
         }, ShopResponseEnum::SHOP_UPDATE);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Shop $shop)
     {
         return $this->execute(function () use ($shop){
@@ -67,6 +54,14 @@ class ShopController extends Controller
                 throw new \Exception('Ca\'t delete');
             }
         }, ShopResponseEnum::SHOP_DELETE);
+    }
+
+    public function user_shops()
+    {
+        return $this->execute(function () {
+            $shops = User::query()->find(auth()->id())->shops;
+            return ShopResource::collection($shops);
+        }, ShopResponseEnum::USER_SHOPS);
     }
 
     public function shop_sellers(Shop $shop)
@@ -89,6 +84,7 @@ class ShopController extends Controller
 
     public function shop_products(Shop $shop)
     {
+        $this->authorize('shop_clients', $shop);
         return $this->execute(function () use ($shop){
             $products = $shop->products;
             return ProductResource::collection($products);

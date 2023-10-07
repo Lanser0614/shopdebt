@@ -8,26 +8,20 @@ use App\Models\User;
 
 class ShopPolicy
 {
+    public function view(User $user, Shop $shop): bool
+    {
+        return $user->hasAnyRole(RolesEnum::OWNER->value,RolesEnum::SELLER->value) && $user->checkShopId($shop->id);
+    }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
         return !$user->hasRole(RolesEnum::SELLER->value);
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
     public function update(User $user, Shop $shop): bool
     {
         return $user->hasRole(RolesEnum::OWNER->value) && $user->id === $shop->user_id;
     }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
 
     public function delete(User $user, Shop $shop): bool
     {
