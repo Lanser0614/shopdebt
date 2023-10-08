@@ -8,6 +8,10 @@ use App\Models\User;
 
 class SellerPolicy
 {
+    public function view(User $user, Seller $seller):bool
+    {
+        return $user->id === $seller->shop->user_id;
+    }
     /**
      * Determine whether the user can create models.
      */
