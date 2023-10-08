@@ -26,7 +26,12 @@ class SellerController extends Controller
             return SellerCreateResource::make($seller);
         }, SellerResponseEnum::SELLER_CREATE);
     }
-
+    public function show(Seller $seller)
+    {
+        return $this->execute(function () use ($seller){
+           return  UpdateSellerResource::make($seller);
+        }, SellerResponseEnum::SELLER_SHOW);
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -37,7 +42,6 @@ class SellerController extends Controller
             return UpdateSellerResource::make($seller->load('user', 'shop'));
         }, SellerResponseEnum::SELLER_UPDATED);
     }
-
     /**
      * Remove the specified resource from storage.
      */

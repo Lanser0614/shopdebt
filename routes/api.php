@@ -53,6 +53,7 @@ Route::prefix('v1')->group(function () {
             Route::get('shop_sellers/{shop}', [ShopController::class, 'shop_sellers'])->name('shop-sellers');
             Route::post('sellers', [SellerController::class, 'store'])->name('seller.store');
             Route::delete('sellers/{seller}', [SellerController::class, 'destroy'])->name('seller.destroy');
+            Route::get('sellers/{seller}', [SellerController::class, 'show'])->name('seller.show');
         });
         //Clients
         Route::apiResource('clients', ClientController::class)->except('index');

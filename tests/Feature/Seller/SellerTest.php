@@ -22,16 +22,19 @@ class SellerTest extends TestCase
         $this->seller->seller = Seller::factory()->create(['shop_id' => $this->shop->id]);
     }
 
+    public function test_owner_can_see_single_seller()
+    {
+        $response = $this->actingAs($this->owner)->get(route('seller.show', $this->seller->seller->id))
+            ->assertStatus(200)
+            ->assertJsonStructure($this->getJsonStructure());
+        $this->isSuccess($response);
+    }
     public function test_owner_can_create_seller()
     {
         $response = $this->actingAs($this->owner)
             ->post(route('seller.store'), ['shop_id' => $this->shop->id, 'label' => 'Manager'])
             ->assertStatus(201)
-            ->assertJsonStructure([
-                'data' =>
-                ['activation_code'],
-                'message',
-                'success']);
+            ->assertJsonStructure(['data' => ['activation_code'], 'message', 'success']);
         $this->isSuccess($response);
     }
 
@@ -58,7 +61,7 @@ class SellerTest extends TestCase
 
     protected function getJsonStructure(): array
     {
-        // TODO: Implement getJsonStructure() method.
+        return ['data' => ['id', 'shop', 'label'], 'message', 'success'];
     }
 
     protected function getFakeModel($method = 'create', $count = 1): Model|array
