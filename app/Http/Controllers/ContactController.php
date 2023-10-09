@@ -20,9 +20,12 @@ class ContactController extends Controller
             $validated = $request->validated();
             $collection = collect();
             foreach ($validated as $data){
-                $data['user_id'] = auth()->id();
-                $contact = Contact::query()->create($data);
-                $collection->add($contact);
+                $data['phone_number'] = $this->phoneCorrection($data['phone_number']);
+                if (!empty($data['phone_number'])){
+                    $data['user_id'] = auth()->id();
+                    $contact = Contact::query()->create($data);
+                    $collection->add($contact);
+                }
             }
             return ContactResource::collection($collection);
         }, ContactResponseEnum::CONTACT_IMPORT);
@@ -55,8 +58,22 @@ class ContactController extends Controller
         }, ContactResponseEnum::CONTACT_SEARCH);
     }
 
-    static function validatePhone(string $phone)
+    public function phoneCorrection(string $phone): string
     {
+        if (strlen($phone) === 13 && str_starts_with($phone, '+998')){
+            return $phone;
+            }
+        elseif (strlen($phone) === 9 && (!str_starts_with($phone, '+998')) && $this->checkSubstr($phone)){
+                return '+998'.$phone;
+        }
+        else {
+            return '';
+        }
+    }
 
+    public function checkSubstr(string $phone):bool
+    {
+        $substr = ['90','91','93','94','95','97','98','99','50','88','77','33','20'];
+        return in_array(substr($phone,0 ,2), $substr);
     }
 }

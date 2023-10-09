@@ -38,6 +38,15 @@ class SellerTest extends TestCase
         $this->isSuccess($response);
     }
 
+    public function test_owner_can_update_seller()
+    {
+        $response = $this->actingAs($this->owner)
+            ->put(route('seller.update', $this->seller->seller->id), ['label' => 'manager'])
+            ->assertStatus(200)
+            ->assertJsonStructure($this->getJsonStructure());
+        $this->isSuccess($response);
+    }
+
     public function test_seller_can_activate()
     {
         $seller =  $this->actingAs($this->owner)->post(route('seller.store'), ['shop_id' => $this->shop->id, 'label' => 'Manager']);

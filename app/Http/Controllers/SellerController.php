@@ -9,6 +9,7 @@ use App\Http\Resources\Seller\SellerCreateResource;
 use App\Http\Resources\Seller\UpdateSellerResource;
 use App\Models\Seller;
 use App\Services\SellerService;
+use Illuminate\Http\Request;
 
 class SellerController extends Controller
 {
@@ -35,12 +36,21 @@ class SellerController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    public function update(Seller $seller, Request $request)
+    {
+        return $this->execute(function () use ($seller, $request){
+            $label = $request->validate(['label' => 'required|string']);
+            $seller->update($label);
+           return UpdateSellerResource::make($seller);
+        }, SellerResponseEnum::SELLER_UPDATED);
+    }
+
     public function activate(UpdateSellerRequest $request)
     {
         return $this->execute(function () use ($request){
             $seller = $this->sellerService->update($request->validated());
             return UpdateSellerResource::make($seller->load('user', 'shop'));
-        }, SellerResponseEnum::SELLER_UPDATED);
+        }, SellerResponseEnum::SELLER_ACTIVATE);
     }
     /**
      * Remove the specified resource from storage.
