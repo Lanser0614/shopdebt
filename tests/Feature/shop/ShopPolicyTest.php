@@ -87,6 +87,7 @@ class ShopPolicyTest extends TestCase
     public function test_owner_can_access_delete_route()
     {
         $response = $this->actingAs($this->owner)
+            ->withHeader('Accept', 'application/json')
             ->delete(route('shops.destroy', $this->shop->id))
             ->assertStatus(200);
         $this->isSuccess($response);

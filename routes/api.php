@@ -41,7 +41,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', LogoutController::class)->name('logout');
-        Route::post('update_sellers', [SellerController::class, 'activate'])->name('seller.activate');
+        Route::post('activate_sellers', [SellerController::class, 'activate'])->name('seller.activate');
         //Shops
         Route::get('shop_clients/{shop}', [ShopController::class, 'shop_clients'])->name('shop-clients');
         Route::get('shop_products/{shop}', [ShopController::class, 'shop_products'])->name('shop-products');
@@ -54,6 +54,7 @@ Route::prefix('v1')->group(function () {
             Route::post('sellers', [SellerController::class, 'store'])->name('seller.store');
             Route::delete('sellers/{seller}', [SellerController::class, 'destroy'])->name('seller.destroy');
             Route::get('sellers/{seller}', [SellerController::class, 'show'])->name('seller.show');
+            Route::put('sellers/{seller}', [SellerController::class, 'update'])->name('seller.update');
         });
         //Clients
         Route::apiResource('clients', ClientController::class)->except('index');

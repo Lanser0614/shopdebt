@@ -20,6 +20,10 @@ class SellerPolicy
         return $user->hasRole(RolesEnum::OWNER->value);
     }
 
+    public function update(User $user, Seller $seller): bool
+    {
+        return $user->id === $seller->shop->user_id;
+    }
     /**
      * Determine whether the user can update the model.
      */

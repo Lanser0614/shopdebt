@@ -77,7 +77,9 @@ class ShopTest extends TestCase
 
     public function test_owner_can_see_shop_products()
     {
-        $response = $this->actingAs($this->owner)->get(route('shop-products', $this->shop->id))
+        $response = $this->actingAs($this->owner)
+            ->withHeader('Accept', 'application/json')
+            ->get(route('shop-products', $this->shop->id))
             ->assertStatus(200)
             ->assertJsonStructure(['data' => [['id', 'name', 'price', 'description']], 'message', 'success']);
         $this->isSuccess($response);
