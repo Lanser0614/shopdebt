@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AuthResource;
 use App\Models\User;
 use App\Models\VerificationCode;
 use Carbon\Carbon;
@@ -46,7 +47,6 @@ class AuthOtpController extends Controller
         ]);
 
         $verificationCode   = VerificationCode::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
-
         $now = Carbon::now();
         if (!$verificationCode) {
             throw new \Exception('Your OTP is not correct');
@@ -64,12 +64,8 @@ class AuthOtpController extends Controller
             'expire_at' => Carbon::now()
         ]);
 
-        Auth::login($user);
-
-        return response([
-            'message' => 'Logged in successfully with otp!',
-            'success' => true
-        ]);
+        $token = $user->createToken('api-token')->plainTextToken;
+        return AuthResource::make(['user' => $user, 'token' => $token]);
     }
 
 
