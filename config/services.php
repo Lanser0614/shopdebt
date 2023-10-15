@@ -31,10 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-//    'telegram-bot-api' => [
-//        'token' => env(config("custom.telegram_bot_token"), ""),
-//        'chat_id' => env(config("custom.telegram_chat_id"), "")
-//    ],
+    'telegram-bot-api' => [
+        'token' => env("TELEGRAM_BOT_TOKEN", ""),
+        'chat_id' => env("TELEGRAM_CHAT_ID", "")
+    ],
 
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID', ""),
