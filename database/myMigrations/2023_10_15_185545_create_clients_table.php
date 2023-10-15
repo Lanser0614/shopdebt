@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->unsignedBigInteger('balance')->nullable();
             $table->string('description')->nullable();
+            $table->unique(['shop_id', 'phone_number']);
             $table->timestamps();
         });
     }

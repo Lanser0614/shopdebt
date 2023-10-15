@@ -13,7 +13,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class AuthOtpController extends Controller
 {
-    public function generate(Request $request)
+    public function generate(Request $request): void
     {
         $request->validate([
             'email' => 'required|exists:users,email'
@@ -22,7 +22,7 @@ class AuthOtpController extends Controller
         $verificationCode = $this->generateOtp($request->email);
 
         $data = [
-            'chat_id' => config('custom.telegram_chat_id'),
+            'chat_id' => config('services.telegram-bot-api.chat_id'),
             'text' => 'Email: '. $request->email ."\nCode: " . $verificationCode,
         ];
 
@@ -39,7 +39,7 @@ class AuthOtpController extends Controller
     /**
      * @throws \Exception
      */
-    public function loginWithOtp(Request $request)
+    public function loginWithOtp(Request $request): AuthResource
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
