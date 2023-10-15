@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('MAILGUN_DOMAIN', ""),
+        'secret' => env('MAILGUN_SECRET', ""),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
         'scheme' => 'https',
     ],
@@ -26,19 +26,19 @@ return [
     ],
 
     'ses' => [
-        'key' => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'key' => env('AWS_ACCESS_KEY_ID', ""),
+        'secret' => env('AWS_SECRET_ACCESS_KEY', ""),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'telegram-bot-api' => [
-        'token' => env(config("custom.telegram_bot_token")),
-        'chat_id' => env(config("custom.telegram_chat_id"))
-    ],
+//    'telegram-bot-api' => [
+//        'token' => env(config("custom.telegram_bot_token"), ""),
+//        'chat_id' => env(config("custom.telegram_chat_id"), "")
+//    ],
 
     'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('GOOGLE_CALLBACK_URL'),
+        'client_id' => env('GOOGLE_CLIENT_ID', ""),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET', ""),
+        'redirect' => env('GOOGLE_CALLBACK_URL', ""),
     ],
 ];
